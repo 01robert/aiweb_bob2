@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/contexts/AuthContext'
+import AuthLayout from '@/components/layout/AuthLayout'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'AI Chat Assistant',
-  description: '智能AI助手，随时为您服务',
+  description: '智能学习助手，帮助学生更好地学习',
 }
 
 export default function RootLayout({
@@ -16,7 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AuthProvider>
+          <AuthLayout>
+            {children}
+          </AuthLayout>
+        </AuthProvider>
+      </body>
     </html>
   )
 } 

@@ -1,6 +1,8 @@
 'use server'
 
-const DEEPSEEK_API_KEY = 'sk-93df5f06f19a4d868527abfd5f9d7f47'
+import { env } from '@/config/env'
+
+const DEEPSEEK_API_KEY = env.deepseek.apiKey
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions'
 
 // 添加系统提示词，指导 AI 如何回答
