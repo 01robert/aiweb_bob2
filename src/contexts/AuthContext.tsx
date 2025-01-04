@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { 
   User,
+  UserCredential,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
@@ -14,8 +15,8 @@ import { useRouter } from 'next/navigation'
 type AuthContextType = {
   user: User | null
   loading: boolean
-  signIn: (email: string, password: string) => Promise<void>
-  signUp: (email: string, password: string) => Promise<void>
+  signIn: (email: string, password: string) => Promise<UserCredential>
+  signUp: (email: string, password: string) => Promise<UserCredential>
   logout: () => Promise<void>
 }
 
@@ -36,14 +37,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password)
-      if (result.user) {
-        router.push('/')
-      }
-    } catch (error) {
-      throw error
+    const result = await signInWithEmailAndPassword(auth, email, password)
+    if (result.user) {
+      router.push('/')
     }
+    return result
   }
 
   const signUp = async (email: string, password: string) => {
@@ -75,4 +73,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const useAuth = () => useContext(AuthContext) 
+export const useAuth = () => useContext(AuthContext)
